@@ -42,13 +42,13 @@
       "dist/**/*",
       "scripts/**/*",
       "../stack/**/*"
-    ,
-      "extraResources": [
+    ],
+    "extraResources": [
       {
         "from": "../stack/",
         "to": "resources/stack"
-    }
-              ]
+      }
+    ],
     "win": {
       "target": [
         "msi",
@@ -56,21 +56,17 @@
       ],
       "certificateFile": null,
       "certificatePassword": null,
-
-
       "signingHashAlgorithms": [
         "sha256"
       ]
-
     },
     "msi": {
       "oneClick": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Local LLM Workbench",
-            "perMachine": true,
-            "runAfterFinish": true
+      "perMachine": true,
+      "runAfterFinish": true
     }
-
   }
 }
