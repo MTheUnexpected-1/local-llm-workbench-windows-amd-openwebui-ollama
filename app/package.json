@@ -1,13 +1,23 @@
 {
+
+  "name": "local-llm-workbench",
+  "version": "0.1.0",
+  "description": "Local LLM Workbench desktop app",
+  "author": "MTheUnexpected",
+=======
   "author": "Local LLM Workbench",
   "name": "local-llm-workbench",
   "version": "0.1.0",
   "description": "Local LLM Workbench desktop app",
+
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc && npm run build:renderer",
     "build:renderer": "esbuild src/renderer/index.tsx --bundle --outfile=dist/renderer.js --platform=browser --loader:.tsx=tsx",
+
+=======
     "win": { "icon": "build/icon.ico" },
+
     "dev": "concurrently \"tsc -w\" \"npm:dev:electron\"",
     "dev:electron": "wait-on dist/main.js && electron dist/main.js",
     "lint": "tsc --noEmit",
@@ -28,8 +38,12 @@
     "electron-builder": "^25.1.8",
     "esbuild": "^0.24.0",
     "typescript": "^5.6.3",
+
+    "wait-on": "^8.0.1"
+=======
     "wait-on": "^8.0.1",
     "@electron-forge/cli": "^7.4.0"
+
   },
   "build": {
     "appId": "com.localllmworkbench.desktop",
@@ -43,10 +57,19 @@
       "../stack/**/*"
     ],
     "win": {
+
+      "target": [
+        "msi"
+      ]
+    },
+    "msi": {
+      "manufacturer": "MTheUnexpected"
+=======
       "target": ["msi"],
       "signtoolOptions": {
         "publisherName": "MTheUnexpected"
       }
+
     }
   }
 }
