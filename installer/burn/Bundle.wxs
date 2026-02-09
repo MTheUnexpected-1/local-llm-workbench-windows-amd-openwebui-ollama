@@ -27,8 +27,7 @@
                   InstallCommand=""
                   RepairCommand=""
                   Vital="yes">
-        <Payload SourceFile="..\scripts\common.ps1" Name="scripts\common.ps1" />
-        <Payload SourceFile="..\scripts\preflight.ps1" Name="scripts\preflight.ps1" />
+        <Payload SourceFile="..\scripts\setup-flow.ps1" Name="scripts\setup-flow.ps1" />
       </ExePackage>
 
       <ExePackage Id="InstallerUxProgress"
@@ -39,8 +38,7 @@
                   InstallCommand=""
                   RepairCommand=""
                   Vital="yes">
-        <Payload SourceFile="..\scripts\common.ps1" Name="scripts\common.ps1" />
-        <Payload SourceFile="..\scripts\install-ux-progress.ps1" Name="scripts\install-ux-progress.ps1" />
+        <Payload SourceFile="..\scripts\setup-flow.ps1" Name="scripts\setup-flow.ps1" />
       </ExePackage>
 
       <ExePackage Id="VCRedist"
@@ -69,8 +67,7 @@
                   InstallCommand=""
                   RepairCommand=""
                   Vital="yes">
-        <Payload SourceFile="..\scripts\common.ps1" Name="scripts\common.ps1" />
-        <Payload SourceFile="..\scripts\postinstall-stack.ps1" Name="scripts\postinstall-stack.ps1" />
+        <Payload SourceFile="..\scripts\setup-flow.ps1" Name="scripts\setup-flow.ps1" />
       </ExePackage>
     </Chain>
   </Bundle>

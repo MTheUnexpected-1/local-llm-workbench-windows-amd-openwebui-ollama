@@ -1,5 +1,5 @@
 @echo off
 setlocal
 set SCRIPT_DIR=%~dp0
-powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Normal -File "%SCRIPT_DIR%..\scripts\install-ux-progress.ps1"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Normal -File "%SCRIPT_DIR%..\scripts\setup-flow.ps1" -Phase ux
 exit /b %ERRORLEVEL%
