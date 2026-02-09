@@ -42,7 +42,7 @@
       "dist/**/*",
       "scripts/**/*",
       "../stack/**/*"
-    ],,
+    ,,
         "extraResources": [
                 {
                           "from": "../stack/",
