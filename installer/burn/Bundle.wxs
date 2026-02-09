@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Bundle Name="Local LLM Workbench Setup"
+          Manufacturer="Local LLM Workbench"
+          Version="0.1.0.0"
+          UpgradeCode="5D54A200-90F4-4CF8-BD1C-95D0046A282C">
+
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
+
+    <Chain>
+      <ExePackage Id="DockerDesktop"
+                  SourceFile="..\payload\Docker Desktop Installer.exe"
+                  PerMachine="yes"
+                  Compressed="yes"
+                  InstallCommand="install --accept-license"
+                  DetectCondition="DOCKERDESKTOPINSTALLED" />
+
+      <ExePackage Id="VCRedist"
+                  SourceFile="..\payload\VC_redist.x64.exe"
+                  PerMachine="yes"
+                  Compressed="yes"
+                  InstallCommand="/install /passive /norestart"
+                  DetectCondition="VCRUNTIMEINSTALLED" />
+
+      <MsiPackage Id="WorkbenchMsi"
+                  SourceFile="..\..\app\release\Local LLM Workbench 0.1.0.msi"
+                  DisplayInternalUI="yes"
+                  Vital="yes" />
+    </Chain>
+  </Bundle>
+</Wix>
