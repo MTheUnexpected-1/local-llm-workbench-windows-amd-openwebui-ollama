@@ -50,8 +50,15 @@
       ],
       "certificateFile": null,
       "certificatePassword": null,
+
       "icon": "build/icon.ico",
       "executableName": "LocalLLMWorkbench"
+
+      "signingHashAlgorithms": [
+        "sha256"
+      ],
+      "icon": "build/icon.ico"
+
     },
     "msi": {
       "oneClick": false,
