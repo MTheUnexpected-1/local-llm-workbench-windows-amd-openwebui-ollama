@@ -29,14 +29,6 @@ What it does **not** do:
 3. If prompted, install/start Docker Desktop using the official link shown by setup.
 4. Let setup finish MSI install + Test Stack.
 5. Launch **Local LLM Workbench** from Start Menu.
-=======
-## Quickstart
-1. Download `LocalLLMWorkbench-Setup.exe` from Releases.
-2. Run installer as Administrator.
-3. Enter admin email/password during setup.
-4. Launch **Local LLM Workbench** from Start Menu.
-5. Click **Start Stack** and wait for green status.
-
 6. Open **Open WebUI** tab inside the desktop app.
 
 ## Features
@@ -60,11 +52,7 @@ What it does **not** do:
 
 ## Troubleshooting
 - **Docker not running**
-
-  - Error: `Docker Desktop is not running. Start Docker Desktop and rerun setup.`
-  - Fix: Start Docker Desktop and re-run installer.
-=======
-  - Error: `error during connect: this error may indicate that the docker daemon is not running`
+  - Error: `Docker Desktop is not running. Start Docker Desktop and rerun setup.` or `error during connect: this error may indicate that the docker daemon is not running`
   - Fix: Start Docker Desktop and retry.
 
 
@@ -83,19 +71,12 @@ What it does **not** do:
 - **Installer step failed**
   - Check `%APPDATA%\LocalLLMWorkbench\installer-logs\install.log`.
 
-=======
-
 ## Build from Source
 ### Prerequisites
 - Node.js 20+
 - Docker Desktop
 - Python 3.11+ (for file-api local testing)
-
 - WiX Toolset v4 (`wix.exe` on PATH)
-
-### Build app MSI
-=======
-- WiX Toolset v4
 
 ### Development run
 ```powershell
@@ -103,16 +84,12 @@ What it does **not** do:
 ```
 
 ### Production app build
-
 ```powershell
 cd app
 npm install
 npm run package
 ```
 
-
-### Build Burn bootstrapper EXE
-=======
 ### Installer build
 
 ```powershell
@@ -124,20 +101,17 @@ Final release artifact:
 
 ## Minimal Test Checklist
 
+- [ ] Install with fresh Windows user.
 - [ ] Installer shows Docker preflight step.
 - [ ] Missing Docker path opens official Docker Desktop URL on consent.
 - [ ] Installer shows MSI install step.
 - [ ] Installer runs Test Stack step and logs image pulls.
 - [ ] `%APPDATA%\LocalLLMWorkbench\installer-logs\install.log` is created with timestamps.
 - [ ] Start Menu shortcut opens app.
-- [ ] Open WebUI loads in embedded tab.
-- [ ] Filesystem tool appears automatically in Open WebUI tools.
-=======
-- [ ] Install with fresh Windows user.
-- [ ] Start Menu shortcut opens app.
 - [ ] Dashboard can start/stop stack.
 - [ ] Open WebUI loads in embedded tab.
 - [ ] Admin login works; signup disabled.
 - [ ] Filesystem tool appears automatically in Open WebUI tools.
 - [ ] `/list` and `/search` respect allowlist and denylist.
+
 
