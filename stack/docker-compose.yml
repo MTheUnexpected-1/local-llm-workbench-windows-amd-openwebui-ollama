@@ -1,14 +1,26 @@
 version: "3.9"
 services:
-  ollama:
-    image: ollama/ollama:latest
-    container_name: llwb-ollama
+  llama-cpp:
+    image: ghcr.io/ggml-org/llama.cpp:latest
+    container_name: llwb-llama-cpp
     ports:
-      - "${OLLAMA_HOST_PORT:-11434}:11434"
+      - "${LLAMA_CPP_HOST_PORT:-8080}:8080"
     volumes:
-      - ollama_data:/root/.ollama
+      - llama_data:/models
+    environment:
+      # llama.cpp server configuration
+      LLAMA_ARG_N_THREADS: "8"
+      LLAMA_ARG_N_GPU_LAYERS: "33"
+    command: >
+      --server
+      --host 0.0.0.0
+      --port 8080
+      --model /models/model.gguf
+      --n-threads 8
+      --n-gpu-layers 33
+      --ctx-size 2048
     healthcheck:
-      test: ["CMD", "ollama", "list"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 15s
       timeout: 10s
       retries: 20
@@ -18,11 +30,11 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     container_name: llwb-openwebui
     depends_on:
-      - ollama
+      - llama-cpp
     ports:
       - "${WEBUI_HOST_PORT:-3000}:8080"
     environment:
-      OLLAMA_BASE_URL: "http://ollama:11434"
+      OLLAMA_BASE_URL: "http://llama-cpp:8080"
       WEBUI_AUTH: "True"
       ENABLE_SIGNUP: "False"
       WEBUI_ADMIN_EMAIL: "${WEBUI_ADMIN_EMAIL}"
@@ -56,5 +68,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  ollama_data:
+  llama_data:
   openwebui_data:

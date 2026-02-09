@@ -11,5 +11,5 @@ files:
 win:
   target:
     - msi
-  publisherName: Local LLM Workbench
+    - dir
 electronVersion: 33.4.11

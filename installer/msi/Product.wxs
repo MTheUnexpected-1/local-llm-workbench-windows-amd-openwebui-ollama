@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="Local LLM Workbench Helper MSI"
+  <Package
+      Name="Local LLM Workbench"
+      Manufacturer="Local LLM Workbench"
+      Version="0.1.0.0"
+      UpgradeCode="D4E3948E-BED5-486B-8A97-E86A97FC2B67"
+      Scope="perMachine">
 
-           Manufacturer="MTheUnexpected"
-=======
-           Manufacturer="Local LLM Workbench"
-
-           Version="0.1.0.0"
-           UpgradeCode="D4E3948E-BED5-486B-8A97-E86A97FC2B67">
     <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
-    <MediaTemplate EmbedCab="yes" />
+    <MediaTemplate />
 
-    <Feature Id="MainFeature" Title="Main" Level="1">
+    <Feature Id="MainFeature" Title="Local LLM Workbench" Level="1">
       <ComponentGroupRef Id="AppFiles" />
     </Feature>
   </Package>
 
   <Fragment>
-    <Directory Id="ProgramFiles64Folder">
+    <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="INSTALLFOLDER" Name="Local LLM Workbench" />
-    </Directory>
+    </StandardDirectory>
   </Fragment>
 
   <Fragment>
     <ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
-      <Component Guid="*">
-        <File Source="..\..\app\release\win-unpacked\Local LLM Workbench.exe" />
+      <Component Id="MainExe" Bitness="always64">
+        <File Source="!(bindpath.AppFiles)\main.js" />
+      </Component>
+      <Component Id="PreloadJs" Bitness="always64">
+        <File Source="!(bindpath.AppFiles)\preload.js" />
+      </Component>
+      <Component Id="RendererJs" Bitness="always64">
+        <File Source="!(bindpath.AppFiles)\renderer.js" />
+      </Component>
+      <Component Id="RendererDir" Bitness="always64">
+        <File Source="!(bindpath.AppFiles)\renderer\index.js" />
+      </Component>
+      <Component Id="Stack" Bitness="always64">
+        <File Source="!(bindpath.AppFiles)\stack\docker-compose.yml" />
+      </Component>
+      <Component Id="Scripts" Bitness="always64">
+        <File Source="!(bindpath.AppFiles)\scripts\config-template.json" />
       </Component>
     </ComponentGroup>
   </Fragment>
