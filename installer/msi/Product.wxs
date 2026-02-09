@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package Name="Local LLM Workbench Helper MSI"
+
            Manufacturer="MTheUnexpected"
+=======
+           Manufacturer="Local LLM Workbench"
+
            Version="0.1.0.0"
            UpgradeCode="D4E3948E-BED5-486B-8A97-E86A97FC2B67">
     <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />

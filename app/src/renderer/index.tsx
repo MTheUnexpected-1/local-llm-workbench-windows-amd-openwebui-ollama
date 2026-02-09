@@ -25,6 +25,8 @@ const App = () => {
     return () => { offLog(); offProg(); };
   }, []);
 
+=======
+
   if (!cfg) return <div>Loading...</div>;
 
   const save = async () => {
@@ -37,7 +39,11 @@ const App = () => {
       <h3>Local LLM Workbench</h3>
       <div className="badge">Windows 10/11</div>
       <div className="nav">
+
         {['Dashboard', 'Setup', 'Models', 'Filesystem Tool', 'Open WebUI'].map(x => <button key={x} onClick={() => setTab(x)}>{x}</button>)}
+=======
+        {['Dashboard', 'Models', 'Filesystem Tool', 'Open WebUI'].map(x => <button key={x} onClick={() => setTab(x)}>{x}</button>)}
+
       </div>
     </aside>
     <main className="content">
@@ -48,6 +54,7 @@ const App = () => {
         <button onClick={async () => setLogs(await window.llwb.getLogs('openwebui'))}>View Open WebUI Logs</button>
         <pre>{logs}</pre>
       </>}
+
       {tab === 'Setup' && (
         <>
           <h2>Setup (Transparent)</h2>
@@ -125,6 +132,8 @@ const App = () => {
           <pre style={{ whiteSpace: 'pre-wrap' }}>{logs}</pre>
         </>
       )}
+=======
+
       {tab === 'Models' && <>
         <h2>Ollama Models</h2>
         <p>Use Open WebUI model picker, or run <code>docker exec llwb-ollama ollama pull mistral</code>.</p>
