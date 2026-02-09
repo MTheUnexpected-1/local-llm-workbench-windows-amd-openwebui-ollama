@@ -1,9 +1,0 @@
-{
-  "build": {
-    "productName": "Local LLM Workbench",
-    "win": {
-      "icon": "build/icon.ico",
-      "target": ["msi"]
-    }
-  }
-}
