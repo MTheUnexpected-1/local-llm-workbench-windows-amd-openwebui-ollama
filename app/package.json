@@ -42,7 +42,13 @@
       "dist/**/*",
       "scripts/**/*",
       "../stack/**/*"
-    ],
+    ],,
+        "extraResources": [
+                {
+                          "from": "../stack/",
+                          "to": "resources/stack"
+                        }
+              ]
     "win": {
       "target": [
         "msi",
@@ -61,7 +67,9 @@
       "oneClick": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Local LLM Workbench"
+      "shortcutName": "Local LLM Workbench",
+            "perMachine": true,
+            "runAfterFinish": true
     }
 
   }
