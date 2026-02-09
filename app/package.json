@@ -1,16 +1,18 @@
 {
+  "author": "Local LLM Workbench",
   "name": "local-llm-workbench",
   "version": "0.1.0",
   "description": "Local LLM Workbench desktop app",
-  "author": "MTheUnexpected",
   "main": "dist/main.js",
   "scripts": {
-    "build": "tsc && npm run build:renderer",
+    "build": "tsc && npm run build:renderer && npm run copy:assets",
     "build:renderer": "esbuild src/renderer/index.tsx --bundle --outfile=dist/renderer.js --platform=browser --loader:.tsx=tsx",
+    "copy:assets": "node -e \"const fs = require('fs'); const path = require('path'); fs.copyFileSync(path.join(__dirname, 'src/renderer/index.html'), path.join(__dirname, 'dist/renderer/index.html'));\"",
+    "win": "build/icon.ico",
     "dev": "concurrently \"tsc -w\" \"npm:dev:electron\"",
     "dev:electron": "wait-on dist/main.js && electron dist/main.js",
     "lint": "tsc --noEmit",
-    "package": "npm run build && electron-builder --win msi"
+    "package": "npm run build && electron-builder --win"
   },
   "dependencies": {
     "axios": "^1.7.7",
@@ -27,13 +29,15 @@
     "electron-builder": "^25.1.8",
     "esbuild": "^0.24.0",
     "typescript": "^5.6.3",
-    "wait-on": "^8.0.1"
+    "wait-on": "^8.0.1",
+    "@electron-forge/cli": "^7.4.0"
   },
   "build": {
     "appId": "com.localllmworkbench.desktop",
     "productName": "Local LLM Workbench",
     "directories": {
-      "output": "release"
+      "output": "release",
+      "buildResources": "build"
     },
     "files": [
       "dist/**/*",
@@ -41,13 +45,16 @@
       "../stack/**/*"
     ],
     "win": {
-      "target": [
-        "msi"
-      ]
+      "target": ["msi", "dir"],
+      "certificateFile": null,
+      "certificatePassword": null,
+      "signingHashAlgorithms": ["sha256"]
     },
     "msi": {
-      "manufacturer": "MTheUnexpected",
-      "perMachine": true
+      "oneClick": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Local LLM Workbench"
     }
   }
 }
