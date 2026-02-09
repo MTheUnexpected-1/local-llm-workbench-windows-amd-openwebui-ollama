@@ -97,7 +97,7 @@ const App = () => {
           <button onClick={async () => {
             const repoRoot = await window.llwb.getRepoRoot?.() ?? '';
             setLogs((prev: string) => prev + `\nRunning docker compose pull...\n`);
-            const r = await window.llwb.setup.dockerComposePull(repoRoot || 'D:\\User\\Documents\\GitHub\\local-llm-workbench-windows-amd-openwebui-ollama');
+            const r = await window.llwb.setup.dockerComposePull(repoRoot || '');
             setLogs((prev: string) => prev + `\ndocker compose pull exitCode=${r.exitCode}\n`);
           }}>
             Pull Docker Images
@@ -106,7 +106,7 @@ const App = () => {
           <button onClick={async () => {
             const repoRoot = await window.llwb.getRepoRoot?.() ?? '';
             setLogs((prev: string) => prev + `\nRunning docker compose up -d...\n`);
-            const r = await window.llwb.setup.dockerComposeUp(repoRoot || 'D:\\User\\Documents\\GitHub\\local-llm-workbench-windows-amd-openwebui-ollama');
+            const r = await window.llwb.setup.dockerComposeUp(repoRoot || '');
             setLogs((prev: string) => prev + `\ndocker compose up exitCode=${r.exitCode}\n`);
           }}>
             Start Stack (compose up)
