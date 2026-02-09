@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+  <Bundle Name="Local LLM Workbench Setup"
+          Manufacturer="MTheUnexpected"
+          Version="0.1.3.0"
+          UpgradeCode="5D54A200-90F4-4CF8-BD1C-95D0046A282C">
+
+    <Log Prefix="LocalLLMWorkbench-Setup" Extension="log" />
+
+    <Variable Name="InstallLogHint" Type="string" Value="%APPDATA%\\LocalLLMWorkbench\\installer-logs\\install.log" bal:Overridable="yes" />
+    <Variable Name="InstallFolder" Type="string" Value="[ProgramFiles64Folder]Local LLM Workbench" bal:Overridable="yes" />
+
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication
+        Theme="rtfLargeLicense"
+        LicenseFile="assets\License.rtf"
+        SuppressOptionsUI="no"
+        ShowVersion="yes" />
+    </BootstrapperApplication>
+
+    <Chain>
+      <ExePackage Id="DockerPreflight"
+                  DisplayName="Checking Docker Desktop prerequisites"
+                  SourceFile="..\payload\run-preflight.cmd"
+                  Compressed="yes"
+                  PerMachine="yes"
+                  Permanent="yes"
+                  Vital="yes">
+        <Payload SourceFile="..\scripts\setup-flow.ps1" Name="scripts\setup-flow.ps1" />
+      </ExePackage>
+
+      <ExePackage Id="InstallerUxProgress"
+                  DisplayName="Preparing installation steps and file list"
+                  SourceFile="..\payload\run-ux-progress.cmd"
+                  Compressed="yes"
+                  PerMachine="yes"
+                  Permanent="yes"
+                  Vital="yes">
+        <Payload SourceFile="..\scripts\setup-flow.ps1" Name="scripts\setup-flow.ps1" />
+      </ExePackage>
+
+      <ExePackage Id="VCRedist"
+                  DisplayName="Installing Microsoft Visual C++ Redistributable (x64)"
+                  DownloadUrl="https://aka.ms/vs/17/release/vc_redist.x64.exe"
+                  PerMachine="yes"
+                  Compressed="no"
+                  InstallArguments="/install /passive /norestart"
+                  RepairArguments="/repair /passive /norestart"
+                  DetectCondition="VCRUNTIMEINSTALLED"
+                  Vital="yes" />
+
+      <MsiPackage Id="WorkbenchMsi"
+                  DisplayName="Installing Local LLM Workbench application files"
+                  SourceFile="..\..\app\release\Local LLM Workbench 0.1.0.msi"
+                  Visible="yes"
+                  Vital="yes"
+                  ForcePerMachine="yes">
+        <MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]" />
+        <MsiProperty Name="DISABLEROLLBACK" Value="1" />
+        <MsiProperty Name="MSIUSEREALADMINDETECTION" Value="1" />
+      </MsiPackage>
+
+      <ExePackage Id="StackValidation"
+                  DisplayName="Running Test Stack and container validation"
+                  SourceFile="..\payload\run-postinstall-stack.cmd"
+                  Compressed="yes"
+                  PerMachine="yes"
+                  Permanent="yes"
+                  Vital="yes">
+        <Payload SourceFile="..\scripts\setup-flow.ps1" Name="scripts\setup-flow.ps1" />
+      </ExePackage>
+    </Chain>
+  </Bundle>
+</Wix>

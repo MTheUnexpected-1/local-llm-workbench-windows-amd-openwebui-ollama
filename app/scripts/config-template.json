@@ -1,0 +1,11 @@
+{
+  "webuiPort": 3000,
+  "ollamaPort": 11434,
+  "fileApiPort": 8001,
+  "webuiAdminEmail": "admin@example.com",
+  "webuiAdminPassword": "ChangeMe123!",
+  "fileApiKey": "replace-me",
+  "allowedFolders": [
+    "C:/Users/Public/Documents"
+  ]
+}
