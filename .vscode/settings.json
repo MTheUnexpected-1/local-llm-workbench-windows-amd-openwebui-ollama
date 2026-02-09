@@ -1,0 +1,23 @@
+{
+  "files.watcherExclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/release": true,
+    "**/.git": true,
+    "**/app/release": true,
+    "**/app/node_modules": true,
+    "**/app/dist": true,
+    "**/build": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/release": true,
+    "**/app/release": true,
+    "**/app/node_modules": true,
+    "**/app/dist": true
+  },
+  "files.exclude": {
+    "**/node_modules": true
+  }
+}

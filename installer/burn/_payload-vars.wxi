@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Include xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <?define DockerDownloadUrl="https://desktop.docker.com/win/stable/Docker%20Desktop%20Installer.exe" ?>
+  <?define VCRedistDownloadUrl="https://aka.ms/vs/17/release/vc_redist.x64.exe" ?>
+  <?define DockerHash="8612147e0495fb7a32c82c731ec54967ed35a17b7dffdf36eac0110b90ea96a9caa59d837845d313f1e9c14d7b3f5e0963c00352ecf9067c45848b27ed3720e6" ?>
+  <?define VCRedistHash="e131b93acde5ffc76c19eb0784183a1e94dfa9fe06111a7830eae3ad8583895575dd4dca66aa70efddb243c95735a0105efcd3042b4b5ca445d3d8e8c39d957e" ?>
+  <?define DockerSize="627871152" ?>
+  <?define VCRedistSize="25635768" ?>
+</Include>

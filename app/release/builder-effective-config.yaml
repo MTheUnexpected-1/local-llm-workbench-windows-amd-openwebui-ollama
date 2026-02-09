@@ -1,0 +1,24 @@
+directories:
+  output: release
+  buildResources: build
+appId: com.localllmworkbench.desktop
+productName: Local LLM Workbench
+files:
+  - filter:
+      - dist/**/*
+      - scripts/**/*
+      - ../stack/**/*
+win:
+  target:
+    - msi
+    - dir
+  certificateFile: null
+  certificatePassword: <stripped sensitive data>
+  signingHashAlgorithms:
+    - sha256
+msi:
+  oneClick: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Local LLM Workbench
+electronVersion: 33.4.11
