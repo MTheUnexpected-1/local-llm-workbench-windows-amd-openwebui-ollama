@@ -1,0 +1,16 @@
+node_modules/
+dist/
+out/
+*.log
+*.local
+.env
+app/dist/
+app/node_modules/
+*.msi
+*.exe
+coverage/
+.DS_Store
+Thumbs.db
+
+__pycache__/
+*.pyc

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+  <Bundle Name="Local LLM Workbench Setup"
+          Manufacturer="MTheUnexpected"
+          Version="0.1.1.0"
+          UpgradeCode="5D54A200-90F4-4CF8-BD1C-95D0046A282C">
+
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication Theme="standard" LicenseUrl="https://opensource.org/license/mit/" />
+    </BootstrapperApplication>
+
+    <Variable Name="InstallLogHint" Type="string" Value="%APPDATA%\\LocalLLMWorkbench\\installer-logs\\install.log" />
+
+    <Chain>
+      <ExePackage Id="DockerPreflight"
+                  DisplayName="Docker Desktop preflight checks"
+                  SourceFile="..\payload\run-preflight.cmd"
+                  Compressed="yes"
+                  PerMachine="yes"
+                  InstallCommand=""
+                  RepairCommand=""
+                  Vital="yes">
+        <Payload SourceFile="..\scripts\common.ps1" Name="scripts\common.ps1" />
+        <Payload SourceFile="..\scripts\preflight.ps1" Name="scripts\preflight.ps1" />
+      </ExePackage>
+
+      <MsiPackage Id="WorkbenchMsi"
+                  DisplayName="Local LLM Workbench Desktop App"
+                  SourceFile="..\..\app\release\Local LLM Workbench 0.1.0.msi"
+                  DisplayInternalUI="yes"
+                  Visible="yes"
+                  Vital="yes" />
+
+      <ExePackage Id="StackValidation"
+                  DisplayName="Pull Docker images and run Test Stack"
+                  SourceFile="..\payload\run-postinstall-stack.cmd"
+                  Compressed="yes"
+                  PerMachine="yes"
+                  InstallCommand=""
+                  RepairCommand=""
+                  Vital="yes">
+        <Payload SourceFile="..\scripts\common.ps1" Name="scripts\common.ps1" />
+        <Payload SourceFile="..\scripts\postinstall-stack.ps1" Name="scripts\postinstall-stack.ps1" />
+      </ExePackage>
+    </Chain>
+  </Bundle>
+</Wix>
