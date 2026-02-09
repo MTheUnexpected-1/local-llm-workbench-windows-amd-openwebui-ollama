@@ -42,12 +42,12 @@
       "dist/**/*",
       "scripts/**/*",
       "../stack/**/*"
-    ,,
-        "extraResources": [
-                {
-                          "from": "../stack/",
-                          "to": "resources/stack"
-                        }
+    ,
+      "extraResources": [
+      {
+        "from": "../stack/",
+        "to": "resources/stack"
+    }
               ]
     "win": {
       "target": [
