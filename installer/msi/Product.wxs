@@ -8,38 +8,25 @@
       Scope="perMachine">
 
     <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
-    <MediaTemplate />
+    <MediaTemplate EmbedCab="yes" />
 
     <Feature Id="MainFeature" Title="Local LLM Workbench" Level="1">
       <ComponentGroupRef Id="AppFiles" />
     </Feature>
-  </Package>
 
-  <Fragment>
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="INSTALLFOLDER" Name="Local LLM Workbench" />
     </StandardDirectory>
-  </Fragment>
+  </Package>
 
   <Fragment>
     <ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
+      <!-- Include all files from the build output directory recursively -->
+      <Component Id="AppAsar" Bitness="always64">
+        <File Source="!(bindpath.SourceDir)\resources\app.asar" />
+      </Component>
       <Component Id="MainExe" Bitness="always64">
-        <File Source="!(bindpath.AppFiles)\main.js" />
-      </Component>
-      <Component Id="PreloadJs" Bitness="always64">
-        <File Source="!(bindpath.AppFiles)\preload.js" />
-      </Component>
-      <Component Id="RendererJs" Bitness="always64">
-        <File Source="!(bindpath.AppFiles)\renderer.js" />
-      </Component>
-      <Component Id="RendererDir" Bitness="always64">
-        <File Source="!(bindpath.AppFiles)\renderer\index.js" />
-      </Component>
-      <Component Id="Stack" Bitness="always64">
-        <File Source="!(bindpath.AppFiles)\stack\docker-compose.yml" />
-      </Component>
-      <Component Id="Scripts" Bitness="always64">
-        <File Source="!(bindpath.AppFiles)\scripts\config-template.json" />
+        <File Source="!(bindpath.SourceDir)\Local LLM Workbench.exe" KeyPath="yes" />
       </Component>
     </ComponentGroup>
   </Fragment>

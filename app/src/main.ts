@@ -152,7 +152,24 @@ function writeEnv() {
 
 function runCompose(args: string[]) {
   return new Promise<string>((resolve, reject) => {
-    const composeFile = path.resolve(__dirname, "../../stack/docker-compose.yml");
+    // Try multiple possible locations for docker-compose.yml
+    let composeFile = path.resolve(__dirname, "../../stack/docker-compose.yml");
+    
+    // If not found (after installation), try the app directory
+    if (!fs.existsSync(composeFile)) {
+      composeFile = path.resolve(__dirname, "../stack/docker-compose.yml");
+    }
+    
+    // Last resort - look in appData
+    if (!fs.existsSync(composeFile)) {
+      composeFile = path.join(appDataDir(), "stack", "docker-compose.yml");
+    }
+    
+    if (!fs.existsSync(composeFile)) {
+      reject(new Error(`docker-compose.yml not found. Checked: ${composeFile}`));
+      return;
+    }
+    
     const proc = spawn("docker", ["compose", "--env-file", envPath, "-f", composeFile, ...args]);
     let out = "";
     proc.stdout.on("data", (d) => (out += d.toString()));
@@ -205,7 +222,22 @@ function createWindow() {
       preload: path.join(__dirname, "preload.js")
     }
   });
-  win.loadFile(path.join(__dirname, "renderer/index.html"));
+  
+  // Properly resolve the HTML file path
+  const htmlPath = path.join(__dirname, "renderer", "index.html");
+  
+  if (fs.existsSync(htmlPath)) {
+    win.loadFile(htmlPath);
+  } else {
+    // Fallback for development or if file is missing
+    console.error("index.html not found at:", htmlPath);
+    win.loadURL("data:text/html,<h1>Error: UI failed to load</h1><p>index.html not found</p>");
+  }
+  
+  // Open dev tools in development
+  if (process.env.NODE_ENV === "development") {
+    win.webContents.openDevTools();
+  }
 }
 
 ipcMain.handle("setup:getLogPath", async () => logFilePath());
