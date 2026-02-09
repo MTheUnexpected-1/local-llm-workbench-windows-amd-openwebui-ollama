@@ -44,7 +44,9 @@
     ],
     "win": {
       "target": ["msi"],
-      "publisherName": "Local LLM Workbench"
+      "signtoolOptions": {
+        "publisherName": "MTheUnexpected"
+      }
     }
   }
 }

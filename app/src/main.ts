@@ -4,6 +4,11 @@ import fs from 'fs';
 import { spawn } from 'child_process';
 import axios from 'axios';
 import log from 'electron-log';
+import os from "os";
+import https from "https";
+import crypto from "crypto";
+
+
 
 const appData = path.join(app.getPath('appData'), 'LocalLLMWorkbench');
 const configPath = path.join(appData, 'config.json');

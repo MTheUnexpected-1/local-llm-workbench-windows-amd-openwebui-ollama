@@ -1,31 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Bundle Name="Local LLM Workbench Setup"
-          Manufacturer="Local LLM Workbench"
-          Version="0.1.0.0"
-          UpgradeCode="5D54A200-90F4-4CF8-BD1C-95D0046A282C">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
 
-    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
+  <Bundle
+      Name="Local LLM Workbench Setup"
+      Manufacturer="Local LLM Workbench"
+      Version="0.1.0.0"
+      UpgradeCode="5D54A200-90F4-4CF8-BD1C-95D0046A282C">
+
+    <!-- Standard BA with RTF license -->
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication
+          LicenseFile="burn\License.rtf"
+          Theme="rtfLicense" />
+    </BootstrapperApplication>
 
     <Chain>
-      <ExePackage Id="DockerDesktop"
-                  SourceFile="..\payload\Docker Desktop Installer.exe"
-                  PerMachine="yes"
-                  Compressed="yes"
-                  InstallCommand="install --accept-license"
-                  DetectCondition="DOCKERDESKTOPINSTALLED" />
 
-      <ExePackage Id="VCRedist"
-                  SourceFile="..\payload\VC_redist.x64.exe"
-                  PerMachine="yes"
-                  Compressed="yes"
-                  InstallCommand="/install /passive /norestart"
-                  DetectCondition="VCRUNTIMEINSTALLED" />
+      <!-- Docker Desktop – download from internet -->
+      <ExePackagePayload
+        Id="DockerDesktop"
+        PerMachine="yes"
+        InstallArguments="install --quiet --accept-license"
+        DetectCondition="DOCKERDESKTOPINSTALLED"
+        Permanent="yes">
 
-      <MsiPackage Id="WorkbenchMsi"
-                  SourceFile="..\..\app\release\Local LLM Workbench 0.1.0.msi"
-                  DisplayInternalUI="yes"
-                  Vital="yes" />
+          <ExePackagePayload
+            DownloadUrl="https://desktop.docker.com/win/stable/Docker%20Desktop%20Installer.exe"
+            Hash="*"
+            Size="1" />
+        </ExePackagePayload>
+
+      <!-- Visual C++ Redist – download from internet -->
+      <ExePackagePayload
+        Id="VCRedist"
+        PerMachine="yes"
+        InstallArguments="/install /quiet /norestart"
+        DetectCondition="VCRUNTIMEINSTALLED"
+        Permanent="yes">
+
+        <ExePackagePayload
+          Description="Microsoft Visual C++ Redistributable"
+          ProductName="Microsoft Visual C++ 2015-2022 Redistributable (x64)"
+          DownloadUrl="https://aka.ms/vs/17/release/vc_redist.x64.exe"
+          Hash="*"
+          Size="1" />
+      </ExePackagePayload>
+
+      <!-- Your app MSI – must exist locally -->
+      <MsiPackage
+        Id="WorkbenchMsi"
+        SourceFile="..\..\app\release\Local LLM Workbench 0.1.0.msi"
+        Visible="yes"
+        Vital="yes" />
+
     </Chain>
+
   </Bundle>
 </Wix>

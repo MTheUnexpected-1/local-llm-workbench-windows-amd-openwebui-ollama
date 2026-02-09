@@ -1,14 +1,43 @@
+# installer/build-installer.ps1
 $ErrorActionPreference = "Stop"
 
-# Kill running app to prevent EBUSY lock
-Get-Process "Local LLM Workbench" -ErrorAction SilentlyContinue | Stop-Process -Force
+# --- Config ---
+$repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
+$appDir   = Join-Path $repoRoot "app"
+$installerDir = $PSScriptRoot
+$bundleWxs = Join-Path $installerDir "burn\Bundle.wxs"
+$outExe   = Join-Path $repoRoot "dist\LocalLLMWorkbench-Setup.exe"
 
-Push-Location "$PSScriptRoot\..\app"
-npm install
-npm run package
-Pop-Location
+# WiX v6 install location (from your registry output)
+$wixExe = "C:\Program Files\WiX Toolset v6.0\bin\wix.exe"
 
-Push-Location $PSScriptRoot
-& "$PSScriptRoot\..\app\node_modules\.bin\wix.cmd" build .\burn\Bundle.wxs -o ..\dist\LocalLLMWorkbench-Setup.exe
-Pop-Location
-Write-Host "Created dist\\LocalLLMWorkbench-Setup.exe"
+# --- Preflight ---
+if (-not (Test-Path $wixExe)) {
+  throw "WiX v6 CLI not found at: $wixExe`nInstall: winget install -e --id WiXToolset.WiXCLI"
+}
+
+if (-not (Test-Path $bundleWxs)) {
+  throw "Bundle.wxs not found at: $bundleWxs"
+}
+
+# Ensure output folder exists
+$distDir = Join-Path $repoRoot "dist"
+New-Item -ItemType Directory -Force -Path $distDir | Out-Null
+
+Write-Host "Using WiX: $wixExe"
+Write-Host "Bundle:   $bundleWxs"
+Write-Host "Output:   $outExe"
+
+# --- Build ---
+Push-Location $installerDir
+try {
+  & $wixExe build ".\burn\Bundle.wxs" `
+    -ext WixToolset.Bal.wixext `
+    -ext WixToolset.Burn.wixext `
+    -o "$outExe"
+}
+finally {
+  Pop-Location
+}
+
+Write-Host "DONE: $outExe"
