@@ -1,8 +1,6 @@
 {
-  "author": "Local LLM Workbench",
-  "name": "local-llm-workbench",
-  "version": "0.1.0",
-  "description": "Local LLM Workbench desktop app",
+  "author": "MTheUnexpected-2",  "name": "local-llm-workbench",
+  "version": "2.0.0",  "description": "Local LLM Workbench desktop app",
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc && npm run build:renderer && npm run copy:assets",
